@@ -35,6 +35,1746 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on Inventory with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Inventory) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Inventory with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in InventoryMultiError, or nil
+// if none found.
+func (m *Inventory) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Inventory) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Uuid
+
+	if all {
+		switch v := interface{}(m.GetInfo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InventoryValidationError{
+					field:  "Info",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InventoryValidationError{
+					field:  "Info",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetInfo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InventoryValidationError{
+				field:  "Info",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetCreatedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InventoryValidationError{
+					field:  "CreatedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InventoryValidationError{
+					field:  "CreatedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InventoryValidationError{
+				field:  "CreatedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetUpdatedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InventoryValidationError{
+					field:  "UpdatedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InventoryValidationError{
+					field:  "UpdatedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUpdatedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InventoryValidationError{
+				field:  "UpdatedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetDeletedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InventoryValidationError{
+					field:  "DeletedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InventoryValidationError{
+					field:  "DeletedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDeletedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InventoryValidationError{
+				field:  "DeletedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return InventoryMultiError(errors)
+	}
+
+	return nil
+}
+
+// InventoryMultiError is an error wrapping multiple validation errors returned
+// by Inventory.ValidateAll() if the designated constraints aren't met.
+type InventoryMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m InventoryMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m InventoryMultiError) AllErrors() []error { return m }
+
+// InventoryValidationError is the validation error returned by
+// Inventory.Validate if the designated constraints aren't met.
+type InventoryValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e InventoryValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e InventoryValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e InventoryValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e InventoryValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e InventoryValidationError) ErrorName() string { return "InventoryValidationError" }
+
+// Error satisfies the builtin error interface
+func (e InventoryValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sInventory.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = InventoryValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = InventoryValidationError{}
+
+// Validate checks the field values on InventoryInfo with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *InventoryInfo) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on InventoryInfo with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in InventoryInfoMultiError, or
+// nil if none found.
+func (m *InventoryInfo) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *InventoryInfo) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	if l := utf8.RuneCountInString(m.GetDescription()); l < 1 || l > 50 {
+		err := InventoryInfoValidationError{
+			field:  "Description",
+			reason: "value length must be between 1 and 50 runes, inclusive",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for Price
+
+	// no validation rules for StockQuantity
+
+	// no validation rules for Category
+
+	if all {
+		switch v := interface{}(m.GetDimensions()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InventoryInfoValidationError{
+					field:  "Dimensions",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InventoryInfoValidationError{
+					field:  "Dimensions",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDimensions()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InventoryInfoValidationError{
+				field:  "Dimensions",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetManufacturer()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InventoryInfoValidationError{
+					field:  "Manufacturer",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InventoryInfoValidationError{
+					field:  "Manufacturer",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetManufacturer()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InventoryInfoValidationError{
+				field:  "Manufacturer",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	{
+		sorted_keys := make([]string, len(m.GetMetadata()))
+		i := 0
+		for key := range m.GetMetadata() {
+			sorted_keys[i] = key
+			i++
+		}
+		sort.Slice(sorted_keys, func(i, j int) bool { return sorted_keys[i] < sorted_keys[j] })
+		for _, key := range sorted_keys {
+			val := m.GetMetadata()[key]
+			_ = val
+
+			// no validation rules for Metadata[key]
+
+			if all {
+				switch v := interface{}(val).(type) {
+				case interface{ ValidateAll() error }:
+					if err := v.ValidateAll(); err != nil {
+						errors = append(errors, InventoryInfoValidationError{
+							field:  fmt.Sprintf("Metadata[%v]", key),
+							reason: "embedded message failed validation",
+							cause:  err,
+						})
+					}
+				case interface{ Validate() error }:
+					if err := v.Validate(); err != nil {
+						errors = append(errors, InventoryInfoValidationError{
+							field:  fmt.Sprintf("Metadata[%v]", key),
+							reason: "embedded message failed validation",
+							cause:  err,
+						})
+					}
+				}
+			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
+				if err := v.Validate(); err != nil {
+					return InventoryInfoValidationError{
+						field:  fmt.Sprintf("Metadata[%v]", key),
+						reason: "embedded message failed validation",
+						cause:  err,
+					}
+				}
+			}
+
+		}
+	}
+
+	if len(errors) > 0 {
+		return InventoryInfoMultiError(errors)
+	}
+
+	return nil
+}
+
+// InventoryInfoMultiError is an error wrapping multiple validation errors
+// returned by InventoryInfo.ValidateAll() if the designated constraints
+// aren't met.
+type InventoryInfoMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m InventoryInfoMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m InventoryInfoMultiError) AllErrors() []error { return m }
+
+// InventoryInfoValidationError is the validation error returned by
+// InventoryInfo.Validate if the designated constraints aren't met.
+type InventoryInfoValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e InventoryInfoValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e InventoryInfoValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e InventoryInfoValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e InventoryInfoValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e InventoryInfoValidationError) ErrorName() string { return "InventoryInfoValidationError" }
+
+// Error satisfies the builtin error interface
+func (e InventoryInfoValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sInventoryInfo.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = InventoryInfoValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = InventoryInfoValidationError{}
+
+// Validate checks the field values on PartsFilter with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *PartsFilter) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on PartsFilter with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in PartsFilterMultiError, or
+// nil if none found.
+func (m *PartsFilter) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *PartsFilter) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return PartsFilterMultiError(errors)
+	}
+
+	return nil
+}
+
+// PartsFilterMultiError is an error wrapping multiple validation errors
+// returned by PartsFilter.ValidateAll() if the designated constraints aren't met.
+type PartsFilterMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m PartsFilterMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m PartsFilterMultiError) AllErrors() []error { return m }
+
+// PartsFilterValidationError is the validation error returned by
+// PartsFilter.Validate if the designated constraints aren't met.
+type PartsFilterValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PartsFilterValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PartsFilterValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PartsFilterValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PartsFilterValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PartsFilterValidationError) ErrorName() string { return "PartsFilterValidationError" }
+
+// Error satisfies the builtin error interface
+func (e PartsFilterValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPartsFilter.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PartsFilterValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PartsFilterValidationError{}
+
+// Validate checks the field values on InventoryUpdateInfo with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *InventoryUpdateInfo) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on InventoryUpdateInfo with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// InventoryUpdateInfoMultiError, or nil if none found.
+func (m *InventoryUpdateInfo) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *InventoryUpdateInfo) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Category
+
+	if all {
+		switch v := interface{}(m.GetDescription()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InventoryUpdateInfoValidationError{
+					field:  "Description",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InventoryUpdateInfoValidationError{
+					field:  "Description",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDescription()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InventoryUpdateInfoValidationError{
+				field:  "Description",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetManufacturer()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InventoryUpdateInfoValidationError{
+					field:  "Manufacturer",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InventoryUpdateInfoValidationError{
+					field:  "Manufacturer",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetManufacturer()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InventoryUpdateInfoValidationError{
+				field:  "Manufacturer",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetName()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InventoryUpdateInfoValidationError{
+					field:  "Name",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InventoryUpdateInfoValidationError{
+					field:  "Name",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetName()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InventoryUpdateInfoValidationError{
+				field:  "Name",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Price
+
+	if all {
+		switch v := interface{}(m.GetStockQuantity()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InventoryUpdateInfoValidationError{
+					field:  "StockQuantity",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InventoryUpdateInfoValidationError{
+					field:  "StockQuantity",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetStockQuantity()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InventoryUpdateInfoValidationError{
+				field:  "StockQuantity",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return InventoryUpdateInfoMultiError(errors)
+	}
+
+	return nil
+}
+
+// InventoryUpdateInfoMultiError is an error wrapping multiple validation
+// errors returned by InventoryUpdateInfo.ValidateAll() if the designated
+// constraints aren't met.
+type InventoryUpdateInfoMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m InventoryUpdateInfoMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m InventoryUpdateInfoMultiError) AllErrors() []error { return m }
+
+// InventoryUpdateInfoValidationError is the validation error returned by
+// InventoryUpdateInfo.Validate if the designated constraints aren't met.
+type InventoryUpdateInfoValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e InventoryUpdateInfoValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e InventoryUpdateInfoValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e InventoryUpdateInfoValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e InventoryUpdateInfoValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e InventoryUpdateInfoValidationError) ErrorName() string {
+	return "InventoryUpdateInfoValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e InventoryUpdateInfoValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sInventoryUpdateInfo.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = InventoryUpdateInfoValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = InventoryUpdateInfoValidationError{}
+
+// Validate checks the field values on UpdatePartRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *UpdatePartRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdatePartRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdatePartRequestMultiError, or nil if none found.
+func (m *UpdatePartRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdatePartRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Uuid
+
+	if all {
+		switch v := interface{}(m.GetUpdateInfo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdatePartRequestValidationError{
+					field:  "UpdateInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdatePartRequestValidationError{
+					field:  "UpdateInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUpdateInfo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdatePartRequestValidationError{
+				field:  "UpdateInfo",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdatePartRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdatePartRequestMultiError is an error wrapping multiple validation errors
+// returned by UpdatePartRequest.ValidateAll() if the designated constraints
+// aren't met.
+type UpdatePartRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdatePartRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdatePartRequestMultiError) AllErrors() []error { return m }
+
+// UpdatePartRequestValidationError is the validation error returned by
+// UpdatePartRequest.Validate if the designated constraints aren't met.
+type UpdatePartRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdatePartRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdatePartRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdatePartRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdatePartRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdatePartRequestValidationError) ErrorName() string {
+	return "UpdatePartRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdatePartRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdatePartRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdatePartRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdatePartRequestValidationError{}
+
+// Validate checks the field values on ListPartsRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *ListPartsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListPartsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListPartsRequestMultiError, or nil if none found.
+func (m *ListPartsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListPartsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetFilter()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ListPartsRequestValidationError{
+					field:  "Filter",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ListPartsRequestValidationError{
+					field:  "Filter",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetFilter()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ListPartsRequestValidationError{
+				field:  "Filter",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return ListPartsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListPartsRequestMultiError is an error wrapping multiple validation errors
+// returned by ListPartsRequest.ValidateAll() if the designated constraints
+// aren't met.
+type ListPartsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListPartsRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListPartsRequestMultiError) AllErrors() []error { return m }
+
+// ListPartsRequestValidationError is the validation error returned by
+// ListPartsRequest.Validate if the designated constraints aren't met.
+type ListPartsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListPartsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListPartsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListPartsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListPartsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListPartsRequestValidationError) ErrorName() string { return "ListPartsRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ListPartsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListPartsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListPartsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListPartsRequestValidationError{}
+
+// Validate checks the field values on ListPartsResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *ListPartsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListPartsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListPartsResponseMultiError, or nil if none found.
+func (m *ListPartsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListPartsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetInventory() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ListPartsResponseValidationError{
+						field:  fmt.Sprintf("Inventory[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ListPartsResponseValidationError{
+						field:  fmt.Sprintf("Inventory[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ListPartsResponseValidationError{
+					field:  fmt.Sprintf("Inventory[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for TotalCount
+
+	if len(errors) > 0 {
+		return ListPartsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListPartsResponseMultiError is an error wrapping multiple validation errors
+// returned by ListPartsResponse.ValidateAll() if the designated constraints
+// aren't met.
+type ListPartsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListPartsResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListPartsResponseMultiError) AllErrors() []error { return m }
+
+// ListPartsResponseValidationError is the validation error returned by
+// ListPartsResponse.Validate if the designated constraints aren't met.
+type ListPartsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListPartsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListPartsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListPartsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListPartsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListPartsResponseValidationError) ErrorName() string {
+	return "ListPartsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListPartsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListPartsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListPartsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListPartsResponseValidationError{}
+
+// Validate checks the field values on DeletePartRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *DeletePartRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeletePartRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeletePartRequestMultiError, or nil if none found.
+func (m *DeletePartRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeletePartRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Uuid
+
+	if len(errors) > 0 {
+		return DeletePartRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeletePartRequestMultiError is an error wrapping multiple validation errors
+// returned by DeletePartRequest.ValidateAll() if the designated constraints
+// aren't met.
+type DeletePartRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeletePartRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeletePartRequestMultiError) AllErrors() []error { return m }
+
+// DeletePartRequestValidationError is the validation error returned by
+// DeletePartRequest.Validate if the designated constraints aren't met.
+type DeletePartRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeletePartRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeletePartRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeletePartRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeletePartRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeletePartRequestValidationError) ErrorName() string {
+	return "DeletePartRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeletePartRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeletePartRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeletePartRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeletePartRequestValidationError{}
+
+// Validate checks the field values on GetAllPartRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *GetAllPartRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetAllPartRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetAllPartRequestMultiError, or nil if none found.
+func (m *GetAllPartRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetAllPartRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GetAllPartRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetAllPartRequestMultiError is an error wrapping multiple validation errors
+// returned by GetAllPartRequest.ValidateAll() if the designated constraints
+// aren't met.
+type GetAllPartRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetAllPartRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetAllPartRequestMultiError) AllErrors() []error { return m }
+
+// GetAllPartRequestValidationError is the validation error returned by
+// GetAllPartRequest.Validate if the designated constraints aren't met.
+type GetAllPartRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetAllPartRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetAllPartRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetAllPartRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetAllPartRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetAllPartRequestValidationError) ErrorName() string {
+	return "GetAllPartRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetAllPartRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetAllPartRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetAllPartRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetAllPartRequestValidationError{}
+
+// Validate checks the field values on GetAllPartResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetAllPartResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetAllPartResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetAllPartResponseMultiError, or nil if none found.
+func (m *GetAllPartResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetAllPartResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetInventory() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetAllPartResponseValidationError{
+						field:  fmt.Sprintf("Inventory[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetAllPartResponseValidationError{
+						field:  fmt.Sprintf("Inventory[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetAllPartResponseValidationError{
+					field:  fmt.Sprintf("Inventory[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for TotalCount
+
+	if len(errors) > 0 {
+		return GetAllPartResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetAllPartResponseMultiError is an error wrapping multiple validation errors
+// returned by GetAllPartResponse.ValidateAll() if the designated constraints
+// aren't met.
+type GetAllPartResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetAllPartResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetAllPartResponseMultiError) AllErrors() []error { return m }
+
+// GetAllPartResponseValidationError is the validation error returned by
+// GetAllPartResponse.Validate if the designated constraints aren't met.
+type GetAllPartResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetAllPartResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetAllPartResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetAllPartResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetAllPartResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetAllPartResponseValidationError) ErrorName() string {
+	return "GetAllPartResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetAllPartResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetAllPartResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetAllPartResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetAllPartResponseValidationError{}
+
+// Validate checks the field values on CreatePartRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *CreatePartRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreatePartRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CreatePartRequestMultiError, or nil if none found.
+func (m *CreatePartRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreatePartRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetInfo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreatePartRequestValidationError{
+					field:  "Info",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreatePartRequestValidationError{
+					field:  "Info",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetInfo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreatePartRequestValidationError{
+				field:  "Info",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return CreatePartRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreatePartRequestMultiError is an error wrapping multiple validation errors
+// returned by CreatePartRequest.ValidateAll() if the designated constraints
+// aren't met.
+type CreatePartRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreatePartRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreatePartRequestMultiError) AllErrors() []error { return m }
+
+// CreatePartRequestValidationError is the validation error returned by
+// CreatePartRequest.Validate if the designated constraints aren't met.
+type CreatePartRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreatePartRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreatePartRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreatePartRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreatePartRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreatePartRequestValidationError) ErrorName() string {
+	return "CreatePartRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreatePartRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreatePartRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreatePartRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreatePartRequestValidationError{}
+
+// Validate checks the field values on CreatePartResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CreatePartResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreatePartResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CreatePartResponseMultiError, or nil if none found.
+func (m *CreatePartResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreatePartResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Uuid
+
+	if len(errors) > 0 {
+		return CreatePartResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreatePartResponseMultiError is an error wrapping multiple validation errors
+// returned by CreatePartResponse.ValidateAll() if the designated constraints
+// aren't met.
+type CreatePartResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreatePartResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreatePartResponseMultiError) AllErrors() []error { return m }
+
+// CreatePartResponseValidationError is the validation error returned by
+// CreatePartResponse.Validate if the designated constraints aren't met.
+type CreatePartResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreatePartResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreatePartResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreatePartResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreatePartResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreatePartResponseValidationError) ErrorName() string {
+	return "CreatePartResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreatePartResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreatePartResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreatePartResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreatePartResponseValidationError{}
+
 // Validate checks the field values on GetPartRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -160,11 +1900,11 @@ func (m *GetPartResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetPart()).(type) {
+		switch v := interface{}(m.GetInventory()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, GetPartResponseValidationError{
-					field:  "Part",
+					field:  "Inventory",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -172,16 +1912,16 @@ func (m *GetPartResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, GetPartResponseValidationError{
-					field:  "Part",
+					field:  "Inventory",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetPart()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetInventory()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return GetPartResponseValidationError{
-				field:  "Part",
+				field:  "Inventory",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -265,287 +2005,6 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetPartResponseValidationError{}
-
-// Validate checks the field values on Part with the rules defined in the proto
-// definition for this message. If any rules are violated, the first error
-// encountered is returned, or nil if there are no violations.
-func (m *Part) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on Part with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in PartMultiError, or nil if none found.
-func (m *Part) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *Part) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for Uuid
-
-	// no validation rules for Name
-
-	if l := utf8.RuneCountInString(m.GetDescription()); l < 1 || l > 50 {
-		err := PartValidationError{
-			field:  "Description",
-			reason: "value length must be between 1 and 50 runes, inclusive",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	// no validation rules for Price
-
-	// no validation rules for StockQuantity
-
-	// no validation rules for Category
-
-	if all {
-		switch v := interface{}(m.GetDimensions()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, PartValidationError{
-					field:  "Dimensions",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, PartValidationError{
-					field:  "Dimensions",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetDimensions()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return PartValidationError{
-				field:  "Dimensions",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetManufacturer()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, PartValidationError{
-					field:  "Manufacturer",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, PartValidationError{
-					field:  "Manufacturer",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetManufacturer()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return PartValidationError{
-				field:  "Manufacturer",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	{
-		sorted_keys := make([]string, len(m.GetMetadata()))
-		i := 0
-		for key := range m.GetMetadata() {
-			sorted_keys[i] = key
-			i++
-		}
-		sort.Slice(sorted_keys, func(i, j int) bool { return sorted_keys[i] < sorted_keys[j] })
-		for _, key := range sorted_keys {
-			val := m.GetMetadata()[key]
-			_ = val
-
-			// no validation rules for Metadata[key]
-
-			if all {
-				switch v := interface{}(val).(type) {
-				case interface{ ValidateAll() error }:
-					if err := v.ValidateAll(); err != nil {
-						errors = append(errors, PartValidationError{
-							field:  fmt.Sprintf("Metadata[%v]", key),
-							reason: "embedded message failed validation",
-							cause:  err,
-						})
-					}
-				case interface{ Validate() error }:
-					if err := v.Validate(); err != nil {
-						errors = append(errors, PartValidationError{
-							field:  fmt.Sprintf("Metadata[%v]", key),
-							reason: "embedded message failed validation",
-							cause:  err,
-						})
-					}
-				}
-			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
-				if err := v.Validate(); err != nil {
-					return PartValidationError{
-						field:  fmt.Sprintf("Metadata[%v]", key),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
-				}
-			}
-
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetCreatedAt()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, PartValidationError{
-					field:  "CreatedAt",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, PartValidationError{
-					field:  "CreatedAt",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return PartValidationError{
-				field:  "CreatedAt",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetUpdatedAt()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, PartValidationError{
-					field:  "UpdatedAt",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, PartValidationError{
-					field:  "UpdatedAt",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetUpdatedAt()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return PartValidationError{
-				field:  "UpdatedAt",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if len(errors) > 0 {
-		return PartMultiError(errors)
-	}
-
-	return nil
-}
-
-// PartMultiError is an error wrapping multiple validation errors returned by
-// Part.ValidateAll() if the designated constraints aren't met.
-type PartMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m PartMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m PartMultiError) AllErrors() []error { return m }
-
-// PartValidationError is the validation error returned by Part.Validate if the
-// designated constraints aren't met.
-type PartValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e PartValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e PartValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e PartValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e PartValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e PartValidationError) ErrorName() string { return "PartValidationError" }
-
-// Error satisfies the builtin error interface
-func (e PartValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sPart.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = PartValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = PartValidationError{}
 
 // Validate checks the field values on Dimensions with the rules defined in the
 // proto definition for this message. If any rules are violated, the first

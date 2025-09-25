@@ -1,7 +1,6 @@
 syntax = "proto3";
 
-// Package ufo.v1 содержит API для работы с наблюдениями НЛО
-package ufo.v1;
+package inventory.v1;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
@@ -10,16 +9,133 @@ import "google/api/annotations.proto";
 import "validate/validate.proto";
 
 //option go_package = "mbakhodurov.library.v1;librarypb"
-option go_package = "github.com/mbakhodurov/week_1/grpc/pkg/proto/inventory/v1;inventory";
+option go_package = "github.com/mbakhodurov/week1/shared/pkg/proto/inventory/v1;inventory";
 
 service InventoryService {
+
+  rpc Update(UpdatePartRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      patch: "/api/v1/inventory/{uuid}"
+      body: "*"
+    };
+  }
+
+  rpc DeletePart(DeletePartRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/v1/inventory/{uuid}"
+    };
+  }
+
+  rpc ListParts(ListPartsRequest) returns (ListPartsResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/inventory"
+    };
+  }
+
+  rpc GetAllPart(GetAllPartRequest) returns (GetAllPartResponse){
+    option(google.api.http)={
+      get: "/api/v1/inventory/all"
+    };
+  }
+
   rpc GetPart(GetPartRequest) returns (GetPartResponse){
     option(google.api.http)={
       get: "/api/v1/inventory/{uuid}"
     };
   }
   
+  rpc CreatePart(CreatePartRequest) returns (CreatePartResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/inventory"
+      body: "*"
+    };
+  }
+}
+
+message Inventory{
+  string uuid = 1;
+  InventoryInfo info = 2;
+
+  // created_at время создания записи
+  google.protobuf.Timestamp created_at = 3;
   
+  // updated_at время последнего обновления записи
+  google.protobuf.Timestamp updated_at = 4;
+  
+  // deleted_at время удаления записи (опционально)
+  google.protobuf.Timestamp deleted_at = 5;
+}
+
+message InventoryInfo{
+  string name = 1;
+  string description = 2 [(validate.rules).string = {min_len: 1, max_len: 50}];
+  double price = 3;
+  int64 stock_quantity = 4;
+  Category category = 5;
+  Dimensions dimensions = 6;
+  Manufacturer manufacturer = 7;
+  repeated string tags = 8;
+  map<string, Value> metadata = 9;
+}
+
+message PartsFilter {
+  repeated string uuids = 1;
+  repeated string names = 2;
+  repeated Category categories = 3;
+  repeated string manufacturer_countries = 4;
+  repeated string tags = 5;
+}
+
+message InventoryUpdateInfo {  
+  // category категрия inventory (опционально)
+  Category category = 1;
+  
+  // description описание inventory объекта (опционально)
+  google.protobuf.StringValue description = 2;
+  
+  // manufacturer объекта (опционально)
+  Manufacturer manufacturer = 3;
+
+  google.protobuf.StringValue name = 4;
+
+  double price = 5;
+  google.protobuf.Int32Value stock_quantity = 6;
+}
+
+message UpdatePartRequest{
+  string uuid = 1;
+  InventoryUpdateInfo update_info = 2;
+}
+
+message ListPartsRequest {
+  PartsFilter filter = 1;
+}
+
+message ListPartsResponse {
+  repeated Inventory inventory = 1;
+  int32 total_count=2;
+}
+
+message DeletePartRequest {
+  // uuid идентификатор inventory для удаления
+  string uuid = 1;
+}
+
+message GetAllPartRequest{}
+
+message GetAllPartResponse{
+  repeated Inventory inventory = 1;
+  int32 total_count=2;
+}
+
+message CreatePartRequest {
+  // Данные для создания inventory
+  InventoryInfo info = 1;
+}
+
+message CreatePartResponse {
+  // uuid идентификатор созданного inventory
+  string uuid = 1;
 }
 
 message GetPartRequest {
@@ -28,22 +144,7 @@ message GetPartRequest {
 
 message GetPartResponse  {
   // sighting данные наблюдения
-  Part part = 1;
-}
-
-message Part {
-  string uuid = 1;
-  string name = 2;
-  string description = 3 [(validate.rules).string = {min_len: 1, max_len: 50}];
-  double price = 4;
-  int64 stock_quantity = 5;
-  Category category = 6;
-  Dimensions dimensions = 7;
-  Manufacturer manufacturer = 8;
-  repeated string tags = 9;
-  map<string, Value> metadata = 10;
-  google.protobuf.Timestamp created_at = 11;
-  google.protobuf.Timestamp updated_at = 12;
+  Inventory inventory = 1;
 }
 
 enum Category {
