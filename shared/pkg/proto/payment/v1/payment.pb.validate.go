@@ -35,6 +35,9 @@ var (
 	_ = sort.Sort
 )
 
+// define the regex for a UUID once up-front
+var _payment_uuidPattern = regexp.MustCompile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+
 // Validate checks the field values on PayOrderRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
@@ -57,14 +60,42 @@ func (m *PayOrderRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for OrderUuid
+	if err := m._validateUuid(m.GetOrderUuid()); err != nil {
+		err = PayOrderRequestValidationError{
+			field:  "OrderUuid",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for UserUuid
+	if err := m._validateUuid(m.GetUserUuid()); err != nil {
+		err = PayOrderRequestValidationError{
+			field:  "UserUuid",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	// no validation rules for PaymentMethod
 
 	if len(errors) > 0 {
 		return PayOrderRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+func (m *PayOrderRequest) _validateUuid(uuid string) error {
+	if matched := _payment_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
 	}
 
 	return nil

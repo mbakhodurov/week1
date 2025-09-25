@@ -20,8 +20,8 @@ service PaymentService {
 }
 
 message PayOrderRequest {
-  string order_uuid = 1;
-  string user_uuid = 2;
+  string order_uuid = 1 [(validate.rules).string = {uuid: true}];;
+  string user_uuid = 2 [(validate.rules).string = {uuid: true}];;
   PaymentMethod payment_method = 3;
 }
 
