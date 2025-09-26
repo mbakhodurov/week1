@@ -100,7 +100,8 @@ func (i *inventoryService) ListParts(ctx context.Context, req *inventoryV1.ListP
 		}
 	}
 	return &inventoryV1.ListPartsResponse{
-		Inventory: result,
+		Inventory:  result,
+		TotalCount: int32(len(result)),
 	}, nil
 }
 
