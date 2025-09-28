@@ -1,19 +1,19 @@
 module github.com/mbakhodurov/week1/order
 
+replace github.com/mbakhodurov/week1/shared => ../shared
+
 go 1.24.4
 
 require (
 	github.com/go-chi/chi/v5 v5.2.3
-	github.com/go-chi/render v1.0.3
-	github.com/mbakhodurov/week1/shared v0.0.0-20250925110114-95b7d33a63e4
+	github.com/mbakhodurov/week1/shared v0.0.0-00010101000000-000000000000
 	google.golang.org/grpc v1.75.1
 )
-
-replace github.com/mbakhodurov/week1/shared => ../shared
 
 require (
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/envoyproxy/protoc-gen-validate v1.2.1 // indirect
+	github.com/go-chi/render v1.0.3 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.2 // indirect
 	golang.org/x/net v0.41.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
