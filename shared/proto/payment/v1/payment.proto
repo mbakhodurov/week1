@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package inventory.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/mbakhodurov/homeworks/week1/shared/pkg/proto/payment/v1;payment_v1";
+
+service PaymentService{
+    rpc PayOrder(PayOrderRequest) returns (PayOrderResponse){
+        option(google.api.http)={
+            post: "/api/v1/payment/pay_order"
+            body: "*"
+        };
+    }
+}
+
+message PayOrderRequest{
+    string order_uuid = 1 [(validate.rules).string = {uuid: true}];
+    string user_uuid = 2 [(validate.rules).string = {uuid: true}];
+    PaymentMethod payment_method = 3;
+}
+message PayOrderResponse{
+    string transaction_uuid = 1;
+}
+
+enum PaymentMethod {
+  UNKNOWN = 0;
+  CARD = 1;
+  SBP = 2;
+  CREDIT_CARD = 3;
+  INVESTOR_MONEY = 4;
+}

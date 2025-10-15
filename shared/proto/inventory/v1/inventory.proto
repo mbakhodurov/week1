@@ -1,0 +1,171 @@
+syntax = "proto3";
+
+package inventory.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/mbakhodurov/homeworks/week1/shared/pkg/proto/inventory/v1;inventory_v1";
+
+service InventoryService{
+  rpc GetPart(GetPartRequest) returns (GetPartResponse){
+    option(google.api.http)={
+        get: "/api/v1/inventory/{uuid}"
+    };
+  }
+
+  rpc ListParts(ListPartsRequest) returns (ListPartsResponse) {
+    option (google.api.http) = {
+        get: "/api/v1/inventory"
+    };
+  }
+
+  rpc CreateParts(CreatePartsRequest)returns(CreatePartsResponse){
+    option (google.api.http) = {
+      post: "/api/v1/inventory"
+      body: "*"
+    };
+  }
+
+  rpc DeletePart(DeletePartRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/v1/inventory/{uuid}"
+    };
+  }
+
+  rpc GetAllPart(GetAllPartRequest) returns (GetAllPartResponse){
+    option(google.api.http)={
+        get: "/api/v1/inventories"
+    };
+  }
+
+  rpc UpdatePart(UpdatePartRequest) returns (google.protobuf.Empty){
+    option (google.api.http) = {
+      patch: "/api/v1/inventory/{uuid}"
+      body: "*"
+    };
+  }
+}
+
+message UpdatePartRequest {
+  // uuid идентификатор наблюдения для обновления
+  string uuid = 1;
+  
+  // Обновляемая информация о наблюдении (частичное обновление)
+  InventoryUpdateInfo update_info = 2;
+}
+
+// InventoryUpdateInfo для обновления (все поля опциональны)
+message InventoryUpdateInfo {
+
+  Category category = 1;
+  
+  google.protobuf.StringValue description = 2;
+  
+  Manufacturer manufacturer = 3;
+
+  google.protobuf.StringValue name = 4;
+
+  double price = 5;
+  google.protobuf.Int32Value stock_quantity = 6;
+}
+
+message GetAllPartRequest{}
+message GetAllPartResponse{
+  repeated Part part = 1;
+  int64 total_count = 2;
+}
+
+message DeletePartRequest {
+  string uuid = 1;
+}
+
+message CreatePartsRequest{
+    PartInfo info = 1;
+}
+
+message CreatePartsResponse {
+  string uuid = 1;
+}
+
+message ListPartsRequest{
+    PartsFilter filter = 1;
+}
+message ListPartsResponse{
+    repeated Part part = 1;
+    int64 total_count = 2;
+}
+
+message GetPartRequest {
+  string uuid = 1;
+}
+message GetPartResponse  {
+  Part part = 1;
+}
+message Part{
+    string uuid = 1;
+    
+    PartInfo info = 2;
+
+    // created_at время создания записи
+    google.protobuf.Timestamp created_at = 3;
+  
+    // updated_at время последнего обновления записи
+    google.protobuf.Timestamp updated_at = 4;
+    
+    // deleted_at время удаления записи (опционально)
+    google.protobuf.Timestamp deleted_at = 5;
+}
+
+message PartInfo{
+    string name = 1 [(validate.rules).string = {min_len: 1, max_len: 50}];
+    string description = 2;
+    double price = 3;
+    int64 stock_quantity = 4;
+    Category category = 5;
+    Dimensions dimensions = 6;
+    Manufacturer manufacturer = 7;
+    repeated string tags = 8;
+    map<string, Value> metadata = 9;
+}
+
+message PartsFilter{
+    repeated string uuids = 1;
+    repeated string names = 2;
+    repeated Category categories = 3;
+    repeated string manufacturer_countries = 4;
+    repeated string tags = 5;
+}
+
+enum Category {
+  CATEGORY_UNKNOWN = 0;
+  ENGINE = 1;
+  FUEL = 2;
+  PORTHOLE = 3;
+  WING = 4;
+}
+
+message Dimensions {
+  double length = 1;
+  double width = 2;
+  double height = 3;
+  double weight = 4;
+}
+
+message Manufacturer {
+  string name = 1;
+  string country = 2;
+  string website = 3;
+}
+
+message Value {
+  oneof kind {
+    string string_value = 1;
+    int64 int64_value = 2;
+    double double_value = 3;
+    bool bool_value = 4;
+  }
+}
